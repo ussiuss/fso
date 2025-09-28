@@ -1,29 +1,23 @@
 ```mermaid
+---
+config:
+  theme: redux-dark
+---
 sequenceDiagram
-    participant browser
-    participant server
+  participant Browser as Browser
+  participant Server as Server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
-    activate server
-    server-->>browser: HTML document
-    deactivate server
+  Browser ->>+ Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+  note right of Browser: Sends new note to server
+  Server -->>- Browser: /notes redirect
+  note left of Server: Redirects to notes page
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
-    activate server
-    server-->>browser: the css file
-    deactivate server
+  Browser ->>+ Server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+  Server -->>- Browser: Returns updated notes page
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
-    activate server
-    server-->>browser: the JavaScript file
-    deactivate server
-
-    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
-
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
-    activate server
-    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
-    deactivate server
-
-    Note right of browser: The browser executes the callback function that renders the notes
+  %% Grouping resource requests
+  note right of Browser: Browser requests page resources
+  Browser ->>+ Server: GET main.css / GET main.js / GET data.json
+  Server -->>- Browser: Returns CSS, JS, JSON
+  note left of Server: Provides page styling, JavaScript, and JSON content
 ```
