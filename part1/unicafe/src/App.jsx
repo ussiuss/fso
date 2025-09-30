@@ -21,16 +21,20 @@ const Statistics = (props) => {
     positive = (props.good / all) * 100
   }
 
-  return(
-    <div>
-      <div>good {props.good}</div>
-      <div>neutral {props.neutral}</div>
-      <div>bad {props.bad}</div>
-      <div>all {all}</div>
-      <div>average {average}</div>
-      <div>positive {positive} %</div>
-    </div>
-  )   
+  // feedback display logic
+  if(all == 0) {
+    return "No feedback given"
+    }
+    return(
+      <div>
+        <div>good {props.good}</div>
+        <div>neutral {props.neutral}</div>
+        <div>bad {props.bad}</div>
+        <div>all {all}</div>
+        <div>average {average}</div>
+        <div>positive {positive} %</div>
+      </div>
+    ) 
 }
 
 
