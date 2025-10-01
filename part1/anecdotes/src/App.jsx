@@ -6,6 +6,12 @@ const Button = (props) => (
   </button>
 ) 
 
+const Header = (props) => (
+  <div>
+    <h1>{props.text}</h1>
+  </div>
+) 
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -22,8 +28,15 @@ const App = () => {
 
   const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
 
+  const headerFirst = "Anecdote of the day"
+
+  const headerSecond = "Anecdote with most votes"
+
+  const maxVotes = votes.indexOf(Math.max(...votes))
+
   return (
     <div>
+      <Header text={headerFirst}/>
       <div>{anecdotes[selected]}</div>
       <div>has {votes[selected]} votes</div>
       <Button onClick = {() => {
@@ -32,6 +45,8 @@ const App = () => {
         setVotes(newVote)
       }} text="vote" />
       <Button onClick = { () => setSelected(Math.floor(Math.random() * anecdotes.length))} text="next anecdote" />
+      <Header text={headerSecond}/>
+      <div>{anecdotes[maxVotes]}</div>
     </div>
   )
 }
