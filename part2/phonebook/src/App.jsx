@@ -6,20 +6,25 @@ const App = (props) => {
   const [newName, setNewName] = useState('')
 
   const addPerson = (event) => {
+    const newNameTrimmed = newName.trim().replace(/ +/g, ' ')
     event.preventDefault()
     const person = {
-      name: newName,
-      id: Math.max(...persons.map(person => person.id)) + 1
+      name: newNameTrimmed,
+      id: Math.max(0 ,...persons.map(person => person.id)) + 1
     }
 
-    setPersons(persons.concat(person))
-    setNewName('')
+    persons.some(person => person.name === newNameTrimmed)
+      ? window.alert(`${newNameTrimmed} is already added to phonebook`) 
+      : (
+        setPersons(persons.concat(person)),
+        setNewName('')
+        )
   }
 
   const handlePersonChange = (event) => {
     setNewName(event.target.value)
   }
-
+  
   return (
     <div>
       <h2>Phonebook</h2>
