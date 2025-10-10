@@ -42,40 +42,43 @@ const Persons = (props) => {
   )
 }
 
-const App = () => {
+const App = (props) => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
 
   useEffect(() => {
+  console.log('effect')
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
+        console.log('promise fulfilled')
         setPersons(response.data)
       })
   }, [])
-  
+
   const addPerson = (event) => {
     const newNameTrimmed = newName.trim().replace(/ +/g, ' ')
     const newNumberTrimmed= newNumber.trim().replace(/ +/g, ' ')
     event.preventDefault()
     const person = {
       name: newNameTrimmed,
-      id: Math.max(0 ,...persons.map(person => person.id)) + 1,
       number: newNumberTrimmed 
     }
 
     persons.some(person => person.name === newNameTrimmed)
       ? window.alert(`${newNameTrimmed} is already added to phonebook`) 
       : (
-        setPersons(persons.concat(person)),
-        setNewName(''),
-        setNewNumber('')
+        axios
+          .post('http://localhost:3001/persons', person)
+          .then(response => {
+            setPersons(persons.concat(response.data))
+            setNewName(''),
+            setNewNumber('')
+          })
         )
   }
-
-
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
