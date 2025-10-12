@@ -21,29 +21,14 @@
       "id": "4"
     },
     {
-      "id": "da37",
+      "id": "6ebf",
       "name": "test",
-      "number": "123"
+      "number": "test"
     },
     {
-      "id": "6a1a",
+      "id": "6981",
       "name": "tester",
-      "number": "123123"
-    },
-    {
-      "id": "9664",
-      "name": "testerer",
-      "number": "12313123"
-    },
-    {
-      "id": "c55d",
-      "name": "arto",
       "number": "test123"
-    },
-    {
-      "id": "eadf",
-      "name": "",
-      "number": ""
     }
   ]
 }
