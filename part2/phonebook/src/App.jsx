@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Person from './components/Person'
 import personService from './services/persons'
 
@@ -30,15 +29,22 @@ const PersonForm = (props) => {
   )
 }
 
-const Persons = (props) => {
-  const filteredPeople = props.persons.filter(person => 
-    person.name.toLowerCase().includes(props.filter.toLowerCase()))
+const Persons = ({ persons, filter, remove }) => {
+  const filteredPeople = persons.filter(person => 
+    person.name.toLowerCase().includes(filter.toLowerCase()))
     
   return(
     <>
-    {filteredPeople.map(person => 
-      <Person key={person.id} person={person} />
-    )}
+      {filteredPeople.map(person => 
+        <span key={person.id}>
+          <Person person={person}/> 
+          {' '}
+          <button onClick={() => remove(person.id, person.name)}>
+            delete
+          </button>
+          <br />
+        </span>
+      )}
     </>
   )
 }
@@ -57,6 +63,17 @@ const App = () => {
         setPersons(initialPersons)
       })
   }, [])
+
+  const removePerson = (id, name) => {
+      if(window.confirm(`Delete ${name} ?`))
+        {
+          personService
+          .remove(id)
+          .then(returnedPerson => {
+            setPersons(persons.filter(p => p.id !== id))
+          })
+        }
+    }
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -103,7 +120,7 @@ const App = () => {
         handleNumberChange={handleNumberChange} 
       />
       <h3>Numbers</h3>
-      <Persons persons={persons} filter={newFilter}/>
+      <Persons persons={persons} filter={newFilter} remove={removePerson}/>
     </div>
   )
 }
